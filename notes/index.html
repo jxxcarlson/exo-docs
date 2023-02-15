@@ -67,6 +67,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#using-the-share">Using the share</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#script-to-set-up-a-share-on-an-instace">Script to set up a share on an instace</a>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -184,7 +186,10 @@ name of your share in the mult-row display of shares so as to get
 the share detail.  You will notice an item <strong>Path</strong>.  Copy long
 string of numbers and letters you see there.</p>
 <h2 id="using-the-share">Using the share</h2>
-<p>Let's write something to a file on the share:</p>
+<p>First, we mount the share:</p>
+<pre><code>$ sudo mount /mydata
+</code></pre>
+<p>Now let's write something to a file on the share:</p>
 <pre><code>$ sudo cat /mydata/foo.txt
 This is a tests
 ^D
@@ -195,6 +200,47 @@ foo.txt
 
 $ cat /mydata/foo.txt
 This is a test
+</code></pre>
+<p>Finally, we unmont the share:</p>
+<pre><code>$ sudo umount /mydata
+</code></pre>
+<h2 id="script-to-set-up-a-share-on-an-instace">Script to set up a share on an instace</h2>
+<pre><code>#!/bin/bash
+
+# Draft 1 of a script for setting up shares on an instance
+# In this draft, the four parameters local_share_name, rule_name
+# path, and access_key are entered manually.
+
+# We should automate input of parameters to the greatest extent possible
+
+# Define the filename
+# Eventually it will be /etc/fstab
+fstab='fake-fstab'
+
+# Define the ceph directory
+# Eventually it will be /etc/ceph
+ceph_dir='fake-ceph'
+
+# Get the needed inputs
+read -p &quot;Enter a local name for your share, e.g., 'myshare':&quot; local_share_name
+read -p &quot;Enter the name of your access rule, e.g, 'joe-sharename-rule-1':&quot; rule_name
+read -p &quot;Enter the path for your share:&quot; path
+read -p &quot;Enter your access key:&quot; access_key
+
+
+# construct the new line for /etc/fstab that will enable mounting of the share
+new_fstab_line=&quot;$path $local_share_name ceph name=$rule_name,x-systemd.device-timeout=30,x-systemd.mount-timeout=30,noatime,_netdev,rw 0   2&quot;
+
+ceph_data=&quot;[client.$rule_name]\n    key = $access_key&quot;
+keyring_file_name=&quot;ceph.client.$rule_name.keyring&quot;
+
+# append line to fstab
+echo $new_fstab_line &gt;&gt; $fstab
+echo Your data has been written to $fstab
+
+# create keyring file
+echo $ceph_data &gt;&gt; $ceph_dir/$keyring_file_name
+echo Your key ring file has been created: $ceph_dir/$keyring_file_name
 </code></pre>
               
             </div>
