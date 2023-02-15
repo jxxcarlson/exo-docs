@@ -240,13 +240,17 @@ echo Your key ring file has been created: $ceph_dir/$keyring_file_name"
 
 ### Modules changed
 
+There are two new modules below (`OpenStack.Shares` 
+and `Page.ShareList`) and 29
+others that had to be changed to get a place
+to put test buttons/list for working with shares.
 
 ```
 	modified:   src/LocalStorage/LocalStorage.elm
 	modified:   src/OpenStack/Shares.elm (NEW)
 	modified:   src/OpenStack/Types.elm
 	modified:   src/Page/ProjectOverview.elm
-	modified:   src/Page/ShareList.elm
+	modified:   src/Page/ShareList.elm (NEW)
 	modified:   src/Route.elm
 	modified:   src/State/State.elm
 	modified:   src/State/ViewState.elm
