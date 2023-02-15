@@ -139,7 +139,7 @@ $ sudo umount /mydata
 ```
 
 
-## Script to set up a share on an instace
+## Script to set up a share on an instance
 
 ```
 #!/bin/bash
