@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://jxxcarlson.github.io/exo-docs/shares/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Shares - Exodocs</title>
+    <title>Working with Shares - Exodocs</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Shares";
+        var mkdocs_page_name = "Working with Shares";
         var mkdocs_page_input_path = "shares.md";
         var mkdocs_page_url = "/exo-docs/shares/";
       </script>
@@ -53,7 +53,27 @@
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Shares</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Working with Shares</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#terminology">Terminology</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#accessing-an-instance-locally">Accessing an Instance Locally</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#setting-up-a-share">Setting up a Share</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#accessing-a-share">Accessing a Share</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#keyring-file">Keyring file</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fstab-file">fstab file</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-the-share">Using the share</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#script-to-set-up-a-share-on-an-instace">Script to set up a share on an instace</a>
+    </li>
+    </ul>
                 </li>
               </ul>
               <ul>
@@ -74,7 +94,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-      <li>Shares</li>
+      <li>Working with Shares</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -83,7 +103,149 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <h1 id="working-with-shares">Working with Shares</h1>
+<p>The notes below show how to set up a share
+using a combination of <a href="https://exosphere.app">Exosphere</a>,
+<a href="https://js2.jetstream-cloud.org/">Jetstream2</a>, and your 
+local terminal.  Eventually this somewhat convoluted
+process will be reduced to something quite simple on Exosphere.</p>
+<h2 id="terminology">Terminology</h2>
+<ul>
+<li>An <em>instance</em> is a virtual machine</li>
+<li>A <em>share</em> is a kind of virtual volume that typically
+consists of many physical volumes on various physical machines.</li>
+</ul>
+<h2 id="accessing-an-instance-locally">Accessing an Instance Locally</h2>
+<ul>
+<li>In Exosphere go the Instances card</li>
+<li>Find your instance and click on it. </li>
+<li>In the new page, note the following info on the 
+<em>Credentials</em> card:<ul>
+<li>Floating IP Address</li>
+<li>Username</li>
+<li>Passphrase</li>
+</ul>
+</li>
+<li>Now do <code>ssh USERNAME@IPADDRESS</code> and paste in the passphrase</li>
+</ul>
+<h2 id="setting-up-a-share">Setting up a Share</h2>
+<p>A share, which we can think of as a virtual file
+system, can be created in <a href="https://js2.jetstream-cloud.org/">Jetstream2</a> (and soon
+will be creatable on exosphere.)  To set up share,
+navigate to the <em>Shares</em> page in Jetstream2.  Click on <em>+ Create Share</em>
+and fill in the resulting form:</p>
+<ul>
+<li>Share Name</li>
+<li>Size</li>
+<li>Share protocol: <code>CephFS</code></li>
+<li>Share type: your only choice is <code>cephfsnativetype</code></li>
+</ul>
+<p>The other fields are optional.  However, <strong>do not</strong> check the 
+box <em>Make visible to users from all projects.</em>*</p>
+<p>Now you must add an access rule.  To do this, click on the 
+triangular drop-down icon to the right of <em>Edit Share</em>
+which you will find on the right-hand side of the row
+in which your instance appears.  Select <em>Manage Rules,</em>
+then click on the new button <em>Add Rule</em> which you will 
+find on the right, above the row in which your share 
+appears.  Fill in the resulting form as follows:</p>
+<ul>
+<li>Access Type: <code>cephx</code></li>
+<li>Access Level: choose the default <code>read-write</code> unless you need <code>read-only</code>.</li>
+<li>Acces To: Enter what will be your rule name.  It should have the form
+<code>USERNAME-SHARENAME-rule-N</code>, where <code>N = 1, 2, 3 ...</code></li>
+</ul>
+<p>Leave the other fields blank, then click the <em>Add</em> button. 
+Now look at the row in which your rule appears.  In the
+column <em>Access Key</em>, there will be a long string of letters
+ending with <code>==</code>.  You will need this access key later,
+as well as the rule name. </p>
+<h2 id="accessing-a-share">Accessing a Share</h2>
+<p>To be able to access a share on a running instance,
+two files must be correctly configured:</p>
+<ol>
+<li>Your keyring file in <code>/etc/ceph</code></li>
+<li>The <code>/etc/fstab</code> fild</li>
+</ol>
+<p>To set them up, ssh to your instance</p>
+<h3 id="keyring-file">Keyring file</h3>
+<p>It is important that your keyring file name obey
+certain conventions, namely as in this model.</p>
+<pre><code>/etc/ceph/ceph.client.RULE_NAME.keyring
+</code></pre>
+<pre><code>[client.RULE_NAME]
+  key = ACCESSKEY
+</code></pre>
+<pre><code>[client.joeuser-testinstance-rule-1]
+  key = AQ...bw==
+</code></pre>
+<h3 id="fstab-file">fstab file</h3>
+<p>You must add a line of the following form to your <code>/etc/fstab</code> file:</p>
+<pre><code>PATH LOCAL_SHARE_NAME ceph name=RULE_NAME,x-systemd.device-timeout=30,x-systemd.mount-timeout=30,noatime,_netdev,rw 0   2
+</code></pre>
+<p>You already know about the <code>RULE_NAME</code>. For the <code>LOCAL_SHARE_NAME</code>, do 
+something like <code>mkdir /mydata</code> in your instance. Then use <code>mydata</code> as the 
+<code>LOCAL_SHARE_NAME</code>.  For the <code>PATH</code>, go to Jetstream2, click on the
+name of your share in the mult-row display of shares so as to get
+the share detail.  You will notice an item <strong>Path</strong>.  Copy long
+string of numbers and letters you see there.</p>
+<h2 id="using-the-share">Using the share</h2>
+<p>First, we mount the share:</p>
+<pre><code>$ sudo mount /mydata
+</code></pre>
+<p>Now let's write something to a file on the share:</p>
+<pre><code>$ sudo cat /mydata/foo.txt
+This is a tests
+^D
+</code></pre>
+<p>Then we have</p>
+<pre><code>$ ls /mydata
+foo.txt
+
+$ cat /mydata/foo.txt
+This is a test
+</code></pre>
+<p>Finally, we unmont the share:</p>
+<pre><code>$ sudo umount /mydata
+</code></pre>
+<h2 id="script-to-set-up-a-share-on-an-instace">Script to set up a share on an instace</h2>
+<pre><code>#!/bin/bash
+
+# Draft 1 of a script for setting up shares on an instance
+# In this draft, the four parameters local_share_name, rule_name
+# path, and access_key are entered manually.
+
+# We should automate input of parameters to the greatest extent possible
+
+# Define the filename
+# Eventually it will be /etc/fstab
+fstab='fake-fstab'
+
+# Define the ceph directory
+# Eventually it will be /etc/ceph
+ceph_dir='fake-ceph'
+
+# Get the needed inputs
+read -p &quot;Enter a local name for your share, e.g., 'myshare':&quot; local_share_name
+read -p &quot;Enter the name of your access rule, e.g, 'joe-sharename-rule-1':&quot; rule_name
+read -p &quot;Enter the path for your share:&quot; path
+read -p &quot;Enter your access key:&quot; access_key
+
+
+# construct the new line for /etc/fstab that will enable mounting of the share
+new_fstab_line=&quot;$path $local_share_name ceph name=$rule_name,x-systemd.device-timeout=30,x-systemd.mount-timeout=30,noatime,_netdev,rw 0   2&quot;
+
+ceph_data=&quot;[client.$rule_name]\n    key = $access_key&quot;
+keyring_file_name=&quot;ceph.client.$rule_name.keyring&quot;
+
+# append line to fstab
+echo $new_fstab_line &gt;&gt; $fstab
+echo Your data has been written to $fstab
+
+# create keyring file
+echo $ceph_data &gt;&gt; $ceph_dir/$keyring_file_name
+echo Your key ring file has been created: $ceph_dir/$keyring_file_name
+</code></pre>
               
             </div>
           </div><footer>
