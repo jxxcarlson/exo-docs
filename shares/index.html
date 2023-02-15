@@ -73,6 +73,16 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#script-to-set-up-a-share-on-an-instance">Script to set up a share on an instance</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#listing-shares">Listing Shares</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#request">Request</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#response-example">Response example</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#modules-changed">Modules changed</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -259,6 +269,63 @@ echo Your data has been written to $fstab
 # create keyring file
 echo $ceph_data &gt;&gt; $ceph_dir/$keyring_file_name
 echo Your key ring file has been created: $ceph_dir/$keyring_file_name&quot;
+</code></pre>
+<h2 id="listing-shares">Listing Shares</h2>
+<h3 id="request">Request</h3>
+<h3 id="response-example">Response example</h3>
+<pre><code>{
+    &quot;shares&quot;: [
+        {
+            &quot;id&quot;: &quot;d94a8548-2079-4be0-b21c-0a887acd31ca&quot;,
+            &quot;links&quot;: [
+                {
+                    &quot;href&quot;: &quot;http://172.18.198.54:8786/v1/16e1ab15c35a457e9c2b2aa189f544e1/shares/d94a8548-2079-4be0-b21c-0a887acd31ca&quot;,
+                    &quot;rel&quot;: &quot;self&quot;
+                },
+                {
+                    &quot;href&quot;: &quot;http://172.18.198.54:8786/16e1ab15c35a457e9c2b2aa189f544e1/shares/d94a8548-2079-4be0-b21c-0a887acd31ca&quot;,
+                    &quot;rel&quot;: &quot;bookmark&quot;
+                }
+            ],
+            &quot;name&quot;: &quot;My_share&quot;
+        },
+        {
+            &quot;id&quot;: &quot;406ea93b-32e9-4907-a117-148b3945749f&quot;,
+            &quot;links&quot;: [
+                {
+                    &quot;href&quot;: &quot;http://172.18.198.54:8786/v1/16e1ab15c35a457e9c2b2aa189f544e1/shares/406ea93b-32e9-4907-a117-148b3945749f&quot;,
+                    &quot;rel&quot;: &quot;self&quot;
+                },
+                {
+                    &quot;href&quot;: &quot;http://172.18.198.54:8786/16e1ab15c35a457e9c2b2aa189f544e1/shares/406ea93b-32e9-4907-a117-148b3945749f&quot;,
+                    &quot;rel&quot;: &quot;bookmark&quot;
+                }
+            ],
+            &quot;name&quot;: &quot;Share1&quot;
+        }
+    ],
+    &quot;count&quot;: 10
+}
+</code></pre>
+<h3 id="modules-changed">Modules changed</h3>
+<pre><code>    modified:   src/LocalStorage/LocalStorage.elm
+    modified:   src/OpenStack/Shares.elm (NEW)
+    modified:   src/OpenStack/Types.elm
+    modified:   src/Page/ProjectOverview.elm
+    modified:   src/Page/ShareList.elm
+    modified:   src/Route.elm
+    modified:   src/State/State.elm
+    modified:   src/State/ViewState.elm
+    modified:   src/Types/Defaults.elm
+    modified:   src/Types/HelperTypes.elm
+    modified:   src/Types/OuterMsg.elm
+    modified:   src/Types/Project.elm
+    modified:   src/Types/View.elm
+    modified:   src/View/Breadcrumb.elm
+    modified:   src/View/PageTitle.elm
+    modified:   src/View/View.elm
+--------------------------------------------
+31 modules
 </code></pre>
               
             </div>
