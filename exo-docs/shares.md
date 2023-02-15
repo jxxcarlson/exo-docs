@@ -198,7 +198,8 @@ echo Your key ring file has been created: $ceph_dir/$keyring_file_name"
 
 ### Request
 
-
+The URL fragment for a GET request to list shares is `/v2/shares`.
+See the [API docs](https://docs.openstack.org/api-ref/shared-file-system/#list-shares).
 
 ### Response example
 
