@@ -1,4 +1,4 @@
 # Exodocs
 
-Just my personal doc site for Exosphere
+Some notes to help working on Exosphere.
 
