@@ -242,7 +242,7 @@ See the [API docs](https://docs.openstack.org/api-ref/shared-file-system/#list-s
 ### Modules changed
 
 There are two new modules below (`OpenStack.Shares` 
-and `Page.ShareList`) and 29
+and `Page.ShareList`) and 14
 others that had to be changed to get a place
 to put test buttons/list for working with shares.
 
@@ -264,5 +264,5 @@ to put test buttons/list for working with shares.
 	modified:   src/View/PageTitle.elm
 	modified:   src/View/View.elm
 --------------------------------------------
-31 modules
+16 modules
 ```
