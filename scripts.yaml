@@ -4,7 +4,7 @@ scripts:
   publish: 
     - git add .
     - git commit -m "update docs" exo-docs/* mkdocs.yml scripts.yaml .gitignore
-  
+    - git push
     - mkdocs gh-deploy
 
   serve: mkdocs serve -a localhost:4011
