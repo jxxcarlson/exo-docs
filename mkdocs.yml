@@ -6,6 +6,6 @@ theme: readthedocs
 
 nav:
   - Home: 'index.md'
-  - 'manila.md'
+  - 'resources.md'
   - 'notes.md'
-  - 'mkdocs.md'
+ 

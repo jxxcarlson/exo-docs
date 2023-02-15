@@ -1,8 +1,14 @@
 
 scripts:
 
-  publish: mkdocs gh-deploy
+  publish: 
+    - git add .
+    - git commit -m "update docs" exo-docs/* mkdocs.yml scripts.yaml .gitignore
+  
+    - mkdocs gh-deploy
 
   serve: mkdocs serve -a localhost:4011
 
   view: /usr/bin/open -a /Applications/Google\ Chrome.app http://localhost:4011vr
+
+  view-remote: /usr/bin/open -a /Applications/Google\ Chrome.app https://jxxcarlson.github.io/exo-docs/
