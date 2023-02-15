@@ -1,13 +1,22 @@
 # Resources
 
 
-- [Meeting notes re Manila](https://c-mart.sandcats.io/grain/9KT3HNtb72DSFrY5hmQaLF/)
+## Links
 
 - [exosphere.app](https://exosphere.app)
 
 - [try.exosphere.app](https://try.exosphere.app)
 
+- [Gitalb repo](https://gitlab.com/exosphere/exosphere)
+
 - [access-ci.org](https://access-ci.org)
+
+## Meeting notes
+
+
+- [Manila, Feb 13, 2023](https://c-mart.sandcats.io/grain/9KT3HNtb72DSFrY5hmQaLF/)
+
+
 
 ## Documentation
 
