@@ -1,0 +1,8 @@
+
+scripts:
+
+  publish: mkdocs gh-deploy
+
+  serve: mkdocs serve -a localhost:4011
+
+  view: /usr/bin/open -a /Applications/Google\ Chrome.app http://localhost:4011vr

@@ -1,0 +1,11 @@
+site_name: Exodocs
+site_url: https://jxxcarlson.github.io/exo-docs
+docs_dir: 'exo-docs'
+
+theme: readthedocs
+
+nav:
+  - Home: 'index.md'
+  - 'manila.md'
+  - 'notes.md'
+  - 'mkdocs.md'
