@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://jxxcarlson.github.io/exo-docs/notes/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Notes - Exodocs</title>
+    <title>Working with Shares - Exodocs</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Notes";
+        var mkdocs_page_name = "Working with Shares";
         var mkdocs_page_input_path = "notes.md";
         var mkdocs_page_url = "/exo-docs/notes/";
       </script>
@@ -45,8 +45,24 @@
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Notes</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Working with Shares</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#terminology">Terminology</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#accessing-an-instance-locally">Accessing an Instance Locally</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#setting-up-a-share">Setting up a Share</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#accessing-a-share">Accessing a Share</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#keyring-file">Keyring file</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fstab-file">fstab file</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-the-share">Using the share</a>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -64,7 +80,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-      <li>Notes</li>
+      <li>Working with Shares</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -73,7 +89,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="terminology">Terminology</h2>
+                <h1 id="working-with-shares">Working with Shares</h1>
+<p>The notes below show how to set up a share
+and from your local terminal.</p>
+<h2 id="terminology">Terminology</h2>
 <ul>
 <li>An <em>instance</em> is a virtual machine</li>
 <li>A <em>share</em> is a kind of virtual volume that typically
@@ -84,10 +103,12 @@ consists of many physical volumes on various physical machines.</li>
 <li>In Exosphere go the Instances card</li>
 <li>Find your instance and click on it. </li>
 <li>In the new page, note the following info on the 
-<em>Credentials</em> card:</li>
+<em>Credentials</em> card:<ul>
 <li>Floating IP Address</li>
 <li>Username</li>
 <li>Passphrase</li>
+</ul>
+</li>
 <li>Now do <code>ssh USERNAME@IPADDRESS</code> and paste in the passphrase</li>
 </ul>
 <h2 id="setting-up-a-share">Setting up a Share</h2>
@@ -113,9 +134,9 @@ find on the right, above the row in which your share
 appears.  Fill in the resulting form as follows:</p>
 <ul>
 <li>Access Type: <code>cephx</code></li>
-<li>Access Level: choose the default 'read-write' unless you need <code>read-only</code>.</li>
+<li>Access Level: choose the default <code>read-write</code> unless you need <code>read-only</code>.</li>
 <li>Acces To: Enter what will be your rule name.  It should have the form
-<code>USERNAME-SHARENAME-rule-N</code>, where N = 1, 2, 3 ...</li>
+<code>USERNAME-SHARENAME-rule-N</code>, where <code>N = 1, 2, 3 ...</code></li>
 </ul>
 <p>Leave the other fields blank, then click the <em>Add</em> button. 
 Now look at the row in which your rule appears.  In the
@@ -146,11 +167,24 @@ certain conventions, namely as in this model.</p>
 <pre><code>PATH LOCAL_SHARE_NAME ceph name=RULE_NAME,x-systemd.device-timeout=30,x-systemd.mount-timeout=30,noatime,_netdev,rw 0   2
 </code></pre>
 <p>You already know about the <code>RULE_NAME</code>. For the <code>LOCAL_SHARE_NAME</code>, do 
-something like <code>mkdir /foo</code> in your instance. Then use <code>foo</code> as the 
+something like <code>mkdir /mydata</code> in your instance. Then use <code>mydata</code> as the 
 <code>LOCAL_SHARE_NAME</code>.  For the <code>PATH</code>, go to Jetstream2, click on the
 name of your share in the mult-row display of shares so as to get
 the share detail.  You will notice an item <strong>Path</strong>.  Copy long
 string of numbers and letters you see there.</p>
+<h2 id="using-the-share">Using the share</h2>
+<p>Let's write something to a file on the share:</p>
+<pre><code>$ sudo cat /mydata/foo.txt
+This is a tests
+^D
+</code></pre>
+<p>Then we have</p>
+<pre><code>$ ls /mydata
+foo.txt
+
+$ cat /mydata/foo.txt
+This is a test
+</code></pre>
               
             </div>
           </div><footer>
