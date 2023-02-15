@@ -108,7 +108,13 @@ string of numbers and letters you see there.
 
 ## Using the share
 
-Let's write something to a file on the share:
+First, we mount the share:
+
+```
+$ sudo mount /mydata
+```
+
+Now let's write something to a file on the share:
 
 ```
 $ sudo cat /mydata/foo.txt
@@ -126,5 +132,50 @@ $ cat /mydata/foo.txt
 This is a test
 ```
 
+Finally, we unmont the share:
+
+```
+$ sudo umount /mydata
+```
 
 
+## Script to set up a share on an instace
+
+```
+#!/bin/bash
+
+# Draft 1 of a script for setting up shares on an instance
+# In this draft, the four parameters local_share_name, rule_name
+# path, and access_key are entered manually.
+
+# We should automate input of parameters to the greatest extent possible
+
+# Define the filename
+# Eventually it will be /etc/fstab
+fstab='fake-fstab'
+
+# Define the ceph directory
+# Eventually it will be /etc/ceph
+ceph_dir='fake-ceph'
+
+# Get the needed inputs
+read -p "Enter a local name for your share, e.g., 'myshare':" local_share_name
+read -p "Enter the name of your access rule, e.g, 'joe-sharename-rule-1':" rule_name
+read -p "Enter the path for your share:" path
+read -p "Enter your access key:" access_key
+
+
+# construct the new line for /etc/fstab that will enable mounting of the share
+new_fstab_line="$path $local_share_name ceph name=$rule_name,x-systemd.device-timeout=30,x-systemd.mount-timeout=30,noatime,_netdev,rw 0   2"
+
+ceph_data="[client.$rule_name]\n    key = $access_key"
+keyring_file_name="ceph.client.$rule_name.keyring"
+
+# append line to fstab
+echo $new_fstab_line >> $fstab
+echo Your data has been written to $fstab
+
+# create keyring file
+echo $ceph_data >> $ceph_dir/$keyring_file_name
+echo Your key ring file has been created: $ceph_dir/$keyring_file_name
+```
