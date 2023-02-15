@@ -209,7 +209,8 @@ This is a test
 <pre><code>$ sudo umount /mydata
 </code></pre>
 <h2 id="script-to-set-up-a-share-on-an-instance">Script to set up a share on an instance</h2>
-<pre><code>#!/bin/bash
+<pre><code>&quot; #!/bin/bash
+# File: setup-share
 
 # Draft 1 of a script for setting up shares on an instance
 # In this draft, the four parameters local_share_name, rule_name
@@ -224,6 +225,19 @@ fstab='fake-fstab'
 # Define the ceph directory
 # Eventually it will be /etc/ceph
 ceph_dir='fake-ceph'
+
+# Infor for user
+echo
+echo &quot;  DIRECTIONS&quot;
+echo &quot;  You will need four pieces of information to setup a share on your instance:&quot;
+echo
+echo &quot;  1.  The name of your access rule, defined in Jetstream2&quot;
+echo &quot;  2.  The access key. This is part of your access rule.&quot;
+echo &quot;  3.  The path to your share.&quot;
+echo &quot;      Click on your share in Jetstream2 to get the details page.&quot;
+echo &quot;      It is there.&quot;
+echo &quot;  4.  The name you give to your share on this instance.  Up to you.&quot;
+echo
 
 # Get the needed inputs
 read -p &quot;Enter a local name for your share, e.g., 'myshare':&quot; local_share_name
@@ -244,7 +258,7 @@ echo Your data has been written to $fstab
 
 # create keyring file
 echo $ceph_data &gt;&gt; $ceph_dir/$keyring_file_name
-echo Your key ring file has been created: $ceph_dir/$keyring_file_name
+echo Your key ring file has been created: $ceph_dir/$keyring_file_name&quot;
 </code></pre>
               
             </div>
