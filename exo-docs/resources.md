@@ -22,6 +22,8 @@
 
 ## Documentation
 
+- [Manila API](https://docs.openstack.org/api-ref/shared-file-system/)
+
 - [Open Stack Documentation](https://docs.openstack.org/api-ref/image/v2/index.html?expanded=list-images-detail#list-images)
 
 - [Configuring a VM to use Manila Shares](https://docs.jetstream-cloud.org/general/manilaVM/)
