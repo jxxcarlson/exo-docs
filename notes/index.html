@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://jxxcarlson.github.io/exo-docs/notes/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Notes - Exodocs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Notes";
+        var mkdocs_page_input_path = "notes.md";
+        var mkdocs_page_url = "/exo-docs/notes/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Exodocs
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../manila/">Manila</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Notes</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../mkdocs/">Welcome to MkDocs</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Exodocs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Notes</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="terminology">Terminology</h2>
+<ul>
+<li>An <em>instance</em> is a virtual machine</li>
+<li>A <em>share</em> is a kind of virtual volume that typicall
+consists of many physical volumes on various physical machines.</li>
+</ul>
+<h2 id="accessing-an-instance-locally">Accessing an Instance Locally</h2>
+<ul>
+<li>In Exosphere go the Instances card</li>
+<li>Find your instance and click on it. </li>
+<li>In the new page, note the following info on the 
+<em>Credentials</em> card:</li>
+<li>Floating IP Address</li>
+<li>Username</li>
+<li>Passphrase</li>
+<li>Now do <code>ssh USERNAME@IPADDRESS</code> and paste in the passphrase</li>
+</ul>
+<h2 id="setting-up-a-share">Setting up a Share</h2>
+<p>A share, which we can think of as a virtual file
+system, can be created in Jetstream2 (and soon
+will be creatable on exosphere.) To be able
+to access a share on a running instance,
+two files must be correctly configured:</p>
+<ol>
+<li>Your keyring file in <code>/etc/ceph</code></li>
+<li>The <code>/etc/fstab</code> fild</li>
+</ol>
+<p>To set them up, ssh to your instance</p>
+<h3 id="keyring-file">Keyring file</h3>
+<p>It is important that your keyring file name obey
+certain conventions, e.g., </p>
+<pre><code>/etc/ceph/ceph.client.RULE_NAME.keyring
+</code></pre>
+<pre><code>[client.RULE_NAME]
+  key = ACCESSKEY
+</code></pre>
+<pre><code>[client.joeuser-testinstance-rule-1]
+  key = AQ...bw==
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../manila/" class="btn btn-neutral float-left" title="Manila"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../mkdocs/" class="btn btn-neutral float-right" title="Welcome to MkDocs">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../manila/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../mkdocs/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
