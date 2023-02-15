@@ -193,3 +193,71 @@ echo Your data has been written to $fstab
 echo $ceph_data >> $ceph_dir/$keyring_file_name
 echo Your key ring file has been created: $ceph_dir/$keyring_file_name"
 ```
+
+## Listing Shares
+
+### Request
+
+
+
+### Response example
+
+```
+{
+    "shares": [
+        {
+            "id": "d94a8548-2079-4be0-b21c-0a887acd31ca",
+            "links": [
+                {
+                    "href": "http://172.18.198.54:8786/v1/16e1ab15c35a457e9c2b2aa189f544e1/shares/d94a8548-2079-4be0-b21c-0a887acd31ca",
+                    "rel": "self"
+                },
+                {
+                    "href": "http://172.18.198.54:8786/16e1ab15c35a457e9c2b2aa189f544e1/shares/d94a8548-2079-4be0-b21c-0a887acd31ca",
+                    "rel": "bookmark"
+                }
+            ],
+            "name": "My_share"
+        },
+        {
+            "id": "406ea93b-32e9-4907-a117-148b3945749f",
+            "links": [
+                {
+                    "href": "http://172.18.198.54:8786/v1/16e1ab15c35a457e9c2b2aa189f544e1/shares/406ea93b-32e9-4907-a117-148b3945749f",
+                    "rel": "self"
+                },
+                {
+                    "href": "http://172.18.198.54:8786/16e1ab15c35a457e9c2b2aa189f544e1/shares/406ea93b-32e9-4907-a117-148b3945749f",
+                    "rel": "bookmark"
+                }
+            ],
+            "name": "Share1"
+        }
+    ],
+    "count": 10
+}
+```
+
+### Modules changed
+
+
+```
+	modified:   src/LocalStorage/LocalStorage.elm
+	modified:   src/OpenStack/Shares.elm (NEW)
+	modified:   src/OpenStack/Types.elm
+	modified:   src/Page/ProjectOverview.elm
+	modified:   src/Page/ShareList.elm
+	modified:   src/Route.elm
+	modified:   src/State/State.elm
+	modified:   src/State/ViewState.elm
+	modified:   src/Types/Defaults.elm
+	modified:   src/Types/HelperTypes.elm
+	modified:   src/Types/OuterMsg.elm
+	modified:   src/Types/Project.elm
+	modified:   src/Types/View.elm
+	modified:   src/View/Breadcrumb.elm
+	modified:   src/View/PageTitle.elm
+	modified:   src/View/View.elm
+--------------------------------------------
+31 modules
+```
